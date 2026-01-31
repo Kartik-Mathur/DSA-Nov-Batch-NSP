@@ -17,7 +17,6 @@ void rotateString1(char *a, int k) {
 	}
 }
 
-
 void rotateString2(char *a, int k) {
 	int len = strlen(a);
 	k %= len;
