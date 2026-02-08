@@ -24,6 +24,7 @@ int fibo(int n) {
 	// recursive case : fibo(n) = fibo(n-1)+fibo(n-2)
 	return fibo(n - 1) + fibo(n - 2);
 }
+
 int main() {
 
 	cout << fibo(9) << endl;
