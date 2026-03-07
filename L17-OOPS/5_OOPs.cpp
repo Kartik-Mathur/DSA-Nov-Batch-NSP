@@ -115,7 +115,38 @@ public:
 
 		name = newName;
 	}
+
+	friend ostream& operator<<(ostream &ob, Car &X);
+	friend istream& operator>>(istream &is, Car &X);
 };
+
+// cout << A << endl; // Agar car ko aise print karna hai toh we can use this syntax
+/*
+	cout is an object of class ostream
+	cin is an object of class istream
+*/
+// Function Declaration : ostream& operator<<(ostream &ob, Car &X)
+ostream& operator<<(ostream &ob, Car &X) {
+	cout << "Name    : " << X.name << endl;
+	cout << "Price   : " << X.price << endl;
+	cout << "Model   : " << X.model << endl;
+
+	return ob;
+}
+
+// cin>>A;
+istream& operator>>(istream &is, Car &X) {
+	cout << "Enter Name of Car: ";
+	char name[100];
+	cin >> name;
+	X.updateName(name);
+	cout << "Enter price : ";
+	cin >> X.price;
+	cout << "Enter Model : ";
+	cin >> X.model;
+
+	return is;
+}
 
 // This is how we give values to static variable
 int Car::cnt = 0; // Car ke scope mei jo cnt hai uski value 0 kardo
@@ -144,20 +175,20 @@ int main() {
 	A.model = 2020;
 
 	// Print data of Car A
-	A.print();
+	// A.print();
 
 	// Creating another Car
 	// Car B("Tata", 300, 2025); // This will call parameterized constructor
 	char y[] = "Tata";
 	Car B(300, 2025, y); // This will call parameterized constructor
 
-	B.print();
+	// B.print();
 	B = A;
 
 	// Copy Constructor aise call hota hai
 	// Car C(B); or Car C = B;
 	Car C = B;
-	C.print();
+	// C.print();
 
 	Car D; // This will also call default constructor
 	D = C; // This is calling Copy assignment operator
@@ -168,7 +199,13 @@ int main() {
 	cout << "Total Cars: " << Car::cnt << endl;
 	cout << "Total Cars: " << A.cnt << endl;
 
+	cout << A << endl;
+	cout << B << endl;
+	cout << C << endl;
 
+	cin >> A;
+
+	cout << A << endl;
 
 
 
