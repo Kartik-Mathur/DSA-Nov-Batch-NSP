@@ -74,6 +74,66 @@ void insertAtMid(node* &head, node* &tail, int data, int pos) {
 }
 
 
+
+
+////////////////////////////////////////// DELETION IN LINKED LIST
+void deleteAtFront(node* &head, node* &tail) {
+	if (head == NULL) {
+		return;
+	}
+	else if (head -> next == NULL) {
+		delete head;
+		head = tail = NULL;
+	}
+	else {
+		node* temp = head;
+		head = head->next;
+		delete temp;
+	}
+}
+
+void deleteAtEnd(node* &head, node* &tail) {
+	if (head == NULL) {
+		return;
+	}
+	else if (head -> next == NULL) {
+		delete head;
+		head = tail = NULL;
+	}
+	else {
+		node* temp = head;
+		while (temp->next != tail) {
+			temp = temp	-> next;
+		}
+
+		delete tail;
+		tail = temp;
+		tail->next = NULL;
+	}
+}
+
+void deleteAtMid(node* &head, node* &tail, int pos) {
+	if (pos == 0) {
+		deleteAtFront(head, tail);
+	}
+	else if (pos >= lengthLL(head) - 1) {
+		deleteAtEnd(head, tail);
+	}
+	else {
+		node* temp = head;
+		for (int i = 1; i <= pos - 1; ++i)
+		{
+			temp = temp->next;
+		}
+
+		node* n = temp->next;
+		temp->next = n->next;
+		delete n;
+	}
+}
+
+
+
 int main() {
 
 	node *head, *tail;
@@ -82,10 +142,17 @@ int main() {
 	insertAtFront(head, tail, 2);
 	insertAtFront(head, tail, 3);
 	insertAtFront(head, tail, 4);
+	insertAtFront(head, tail, 5);
 
 	printLL(head);
 	insertAtMid(head, tail, 13, 3);
 	printLL(head);
+	deleteAtMid(head, tail, 4);
+	printLL(head);
+	// deleteAtFront(head, tail);
+	// printLL(head);
+	// deleteAtEnd(head, tail);
+	// printLL(head);
 
 	return 0;
 }
