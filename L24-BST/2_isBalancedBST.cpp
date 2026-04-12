@@ -82,19 +82,65 @@ void postOrder(node* root) {
 	cout << root->data << " ";
 }
 
+class Pair{
+public:
+	bool isBalanced;
+	int height;
+};
+
+Pair checkBalanced(node* root){
+	
+	if(root == NULL){
+		// Pair p;
+		// p.isBalanced = true;
+		// p.height = 0;
+		// return p;
+
+		return {true, 0};
+	}
+
+	Pair p;
+	Pair left = checkBalanced(root->left);
+	Pair right = checkBalanced(root->right);
+
+	p.height = max(left.height, right.height) + 1;
+	p.isBalanced = left.isBalanced && right.isBalanced && (abs(left.height- right.height)<=1);
+
+	return p;
+}
+
+bool checkBST(node* root,int mi = INT_MIN,int mx = INT_MAX){
+	if(root == NULL){
+		return true;
+	}
+
+	if(root->data >= mi and root->data <=mx){
+		bool isLeftBST = checkBST(root->left, mi, root->data);
+		bool isRightBST = checkBST(root->right, root->data, mx);
+		if(isLeftBST == true and isRightBST == true){
+			return true;
+		}
+	}
+
+	return false;
+}
 
 int main(){
-
-	node* root = createBST();
 	// 8 3 10 1 6 14 4 7 13 -1
-	preOrder(root);
-	cout << endl;
-	inOrder(root);
-	cout << endl;
-	postOrder(root);
-	cout << endl;
+	node* root = createBST();
 
-	printNodesInRange(root,5,10);
+	Pair ans = checkBalanced(root);
+
+	cout << "Height    : "<<ans.height<<endl;
+	cout << "Balanced  : "<<ans.isBalanced<<endl;
+
+	if(checkBST(root) == true){
+		cout << "IS BST\n";
+	}
+	else{
+		cout << "Not A BST\n";
+	}
+
 
 	return 0;
 }

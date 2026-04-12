@@ -82,19 +82,52 @@ void postOrder(node* root) {
 	cout << root->data << " ";
 }
 
+class LinkedList{
+public:
+	node* head, *tail;
+};
+
+LinkedList bstToLL(node* root){
+	if(root == NULL){
+		return {NULL, NULL};
+	}
+
+	if(root -> left != NULL and root->right != NULL){
+		LinkedList left = bstToLL(root->left);
+		LinkedList right = bstToLL(root->right);
+
+		left.tail->right = root;
+		root->right = right.head;
+		return {left.head, right.tail};
+	}
+	else if(root -> left != NULL and root->right == NULL){
+		LinkedList left = bstToLL(root->left);
+		left.tail->right = root;
+		return {left.head, root};
+	}
+	else if(root -> left == NULL and root->right != NULL){
+		LinkedList right = bstToLL(root->right);
+		root->right = right.head;
+		return {root, right.tail};
+	}
+	else{ // root -> left == NULL and root->right == NULL
+		return {root, root};
+	}
+}
 
 int main(){
-
-	node* root = createBST();
 	// 8 3 10 1 6 14 4 7 13 -1
-	preOrder(root);
-	cout << endl;
-	inOrder(root);
-	cout << endl;
-	postOrder(root);
-	cout << endl;
+	node* root = createBST();
 
-	printNodesInRange(root,5,10);
+	LinkedList l = bstToLL(root);
+
+	node* temp = l.head;
+	while(temp != NULL){
+		cout << temp->data << " --> ";
+		temp = temp -> right;
+	}
+	cout << "NULL\n";
+	
 
 	return 0;
 }

@@ -10,45 +10,17 @@ public:
 	}
 };
 
-node* insertInBST(node* root,int data){
-	if(root == NULL){
-		root = new node(data);
-		return root;
+node* createBST(int *arr,int s,int e){
+	if(s>e){
+		return NULL;
 	}
+	
+	int m = (s+e)/2;
+	node* root = new node(arr[m]);
 
-	if(root -> data < data){
-		root->right = insertInBST(root->right, data);
-	}
-	else{
-		root->left = insertInBST(root->left, data);
-	}
-	return root;
-}
+	root->left = createBST(arr,s,m-1);
+	root->right = createBST(arr,m+1,e);
 
-void printNodesInRange(node* root,int k1,int k2){
-	if(root == NULL){
-		return;
-	}	
-
-	printNodesInRange(root->left,  k1, k2);
-	if(root->data >= k1 and root->data<=k2){
-		cout << root->data <<" ";
-	}
-	printNodesInRange(root->right, k1, k2);
-}
-
-node* createBST(){
-	int data;
-	cin>>data;
-
-	node* root = NULL;
-
-	while(data != -1){
-
-		root = insertInBST(root, data);
-
-		cin>>data;
-	}
 	return root;
 }
 
@@ -84,9 +56,12 @@ void postOrder(node* root) {
 
 
 int main(){
-
-	node* root = createBST();
 	// 8 3 10 1 6 14 4 7 13 -1
+	int a[] = {1, 2, 3, 4, 5,6,7,8};
+	int n = sizeof(a)/sizeof(int);
+
+	node* root = createBST(a,0,n-1);
+
 	preOrder(root);
 	cout << endl;
 	inOrder(root);
@@ -94,7 +69,7 @@ int main(){
 	postOrder(root);
 	cout << endl;
 
-	printNodesInRange(root,5,10);
+	
 
 	return 0;
 }
