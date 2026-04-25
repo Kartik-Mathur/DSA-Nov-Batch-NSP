@@ -97,13 +97,40 @@ public:
 		}
 	}
 
+	node* search(string key){
+		int hashIndex = hashFunction(key);
+		node* head = a[hashIndex];
+
+		while(head!=NULL){
+			if(head->key == key){
+				return head;
+			}
+			head = head->next;
+		}
+		return NULL;
+	}
+
+	int& operator[](string key){
+		node* ans = search(key);
+		if(ans == NULL){ // Key is not present 
+			int garbage;
+			insert(key, garbage); // key hai yaha but value nhi hai abhi
+
+			ans = search(key); // ab toh pakka milegi upr hi toh insert kia h
+		}
+
+		return ans->value;
+	}
+
 };
 
 int main(){
 
 	Hashmap h(7);
 
-	h.insert("mango",100);
+	// h.insert("mango",100);
+	h["mango"] = 100;
+	h["mango"] = 300;
 	h.insert("apple",150);
 	h.insert("Kiwi",50);
 	h.insert("Pineapple",120);
